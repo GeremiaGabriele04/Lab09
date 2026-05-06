@@ -21,9 +21,9 @@ class Controller:
             self._view.create_alert("Inserire una distanza valida")
             return
 
-        self._model.addEdgesPesatiV2(dist)
+        self._model.buildGraph(dist)
         self._view.txt_result.controls.append(ft.Text("Grafo correttamente creato."))
         self._view.txt_result.controls.append(ft.Text(f"Il grafo contiene {self._model.get_numnodi()} nodi e {self._model.get_numarchi()} archi."))
-        for u,v,data in self._model._graph.edges(data=True):
-            self._view.txt_result.controls.append(ft.Text(f"{u} -> {v} : {data['weight']}"))
+        for u,v,peso in self._model._graph.edges(data=True):
+            self._view.txt_result.controls.append(ft.Text(f"{u} -> {v} : {peso['weight']}"))
         self._view.update_page()

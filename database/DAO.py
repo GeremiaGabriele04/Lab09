@@ -5,20 +5,19 @@ from model.aeroporto import Aeroporto
 class DAO():
 
     @staticmethod
-    def getAllNodes(id1,id2):
+    def getAllNodes():
         conn = DBConnect.get_connection()
         cursor = conn.cursor(dictionary=True)
 
         res = []
         query = """select *
                    from airports
-                    where ID=%s or ID=%s"""
+                    """
 
-        cursor.execute(query, (id1,id2))
+        cursor.execute(query)
 
         for row in cursor:
             res.append(Aeroporto(**row))
-            # res.append(ArtObject(object_id=row["object_id"], ...))
 
         cursor.close()
         conn.close()
@@ -31,9 +30,10 @@ class DAO():
         result = []
 
         cursor = conn.cursor(dictionary=True)
-        query = """select origin_airport_id as origin, destination_airport_id as destination, sum(distance) as peso, count(*) as volte
+        query = """select ORIGIN_AIRPORT_ID as origin, DESTINATION_AIRPORT_ID as destination, sum(DISTANCE) as peso, count(*) as volte
                     from flights f 
-                    group by origin , destination"""
+                    group by ORIGIN_AIRPORT_ID, DESTINATION_AIRPORT_ID 
+                    """
         cursor.execute(query)
 
         for row in cursor:
